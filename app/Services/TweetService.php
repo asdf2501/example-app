@@ -5,10 +5,9 @@ namespace App\Services;
 use App\Models\Tweet;
 use Carbon\Carbon;
 use App\Models\Image;
+use App\Modules\ImageUpload\ImageManagerInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\Modules\ImageUpload\ImageManagerInterface;
-
 
 class TweetService
 {
@@ -60,12 +59,10 @@ class TweetService
         DB::transaction(function () use ($tweetId) {
             $tweet = Tweet::where('id', $tweetId)->firstOrFail();
             $tweet->images()->each(function ($image) use ($tweet){
-                $filePath = 'public/images/' . $image->name;
                 $this->imageManager->delete($image->name);
                 $tweet->images()->detach($image->id);
                 $image->delete();
             });
-
             $tweet->delete();
         });
     }

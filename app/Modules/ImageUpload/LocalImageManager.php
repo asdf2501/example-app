@@ -9,7 +9,7 @@ class LocalImageManager implements ImageManagerInterface
 {
     public function save($file): string
     {
-        $path = (string) Storage::putFile('public/images',$file);
+        $path = (string) Storage::putFile('public/images', $file);
         $array = (array) explode("/", $path);
         return end($array);
     }
