@@ -7,6 +7,6 @@ if (! function_exists('image_url')) {
         if (app()->environment('production')) {
             return (string) app()->make(\Cloudinary\Cloudinary::class)->image($path)->secure();
         }
-        return assert('storage/images/' . $path);
+        return asset('storage/images/' . $path);
     }
 }
